@@ -1,0 +1,43 @@
+<!-- Plan to extend this later to include various ways to view the data -->
+
+{% extends "layout.html" %}
+
+{% block title %}
+    User History
+{% endblock %}
+
+{% block main %}
+    {% if data %}
+        <table class="mx-auto my-5">
+            <thead>
+                <tr class="py-3">
+                    <th class="px-3">DATE</th>
+                    <th class="px-3">COMPANY</th>
+                    <th class="px-3">SYMBOL</th>
+                    <th class="px-3">ACTION</th>
+                    <th class="px-3">SHARES</th>
+                    <th class="px-3">PRICE</th>
+                    <th class="px-3">TOTAL</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for col in data %}
+                    <tr class="{{ loop.cycle('even', 'odd') }}">
+                            <td class="px-2">{{ col.datetime }}</td>
+                            <td class="px-2">{{ col.company }}</td>
+                            <td class="px-2">{{ col.symbol }}</td>
+                            <td class="px-2">{{ col.action }}</td>
+                            <td class="px-2">{{ col.shares|abs() }}</td>
+                            <td class="px-2">{{ col.price }}</td>
+                            <td class="px-2">{{ col.value|round(2)|abs() }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="row">
+            <div class="col display-4">You have no purchased stocks.</div>
+        </div>
+    {% endif %}
+{% endblock %}

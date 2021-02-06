@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="post" class="mt-5 pt-5">
+
+        <div class="form-group w-100">
+            <select id="input" autocomplete="on" type="text" name="symbol" maxlength="5" minlength="1" class="form-control" autofocus required>
+                <option class="text-justify" disabled="disabled">Select Symbol</option>
+                <option disabled="disabled">------------</option>
+                {% for symbol in current if current %}
+                    {% set symbol = symbol["symbol"] %}
+                    <option value="{{ symbol }}" name="{{ symbol }}">{{ symbol }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="text" autocomplete="off" name="shares" placeholder="Shares" class="form-control" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sell</button>
+    </form>
+
+{% endblock %}

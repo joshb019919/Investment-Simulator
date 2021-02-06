@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <meta id="symbol" data-name="{{symbol}}">
+{% endblock %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post" class="mt-5 pt-5">
+
+        <div class="form-group">
+            <input id="input" value="{{ symbol if symbol }}" autocomplete="on" type="text" name="symbol" maxlength="5" minlength="1" class="form-control" placeholder="Symbol" {{'autofocus' if not symbol}} required>
+        </div>
+
+        <div class="form-group">
+            <input type="text" autocomplete="off" name="shares" placeholder="Shares" class="form-control" min="1" {{'autofocus' if symbol}} required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Buy</button>
+    </form>
+{% endblock %}

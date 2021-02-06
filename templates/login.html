@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/login" method="post">
+        <h2 class="form-group mb-5">
+            {{ "Please re-enter your username and password" if post }}
+        </h2>
+
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" name="username" minlength="4" placeholder="Username" type="text" autofocus required>
+        </div>
+
+        <div class="form-group">
+            <input class="form-control" name="password" minlength="8" placeholder="Password" type="password" required>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+{% endblock %}

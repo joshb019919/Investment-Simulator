@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Confirm
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="display-4">{{action}} {{shares}} {{ "shares" if shares >= 2 else "share" }} of {{company}} for {{total}}?</div>
+        <div class="d-inline-flex my-5">
+
+            <form action="/confirmation/{{ action }}" method="post" class="mr-5 form-group">
+                <button type="submit" class="btn btn-lg btn-primary" autofocus>{{ action }}</button>
+            </form>
+
+            <form action="/" method="get" class="ml-5 form-group">
+                <button type="submit" class="btn btn-lg btn-warning">Cancel</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

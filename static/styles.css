@@ -1,0 +1,108 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+/* colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+.quotes
+{
+    /* remove disks from listed quotes */
+    list-style-type: none;
+}
+
+/* tells user about requirements */
+.explanation
+{
+    /* keeps form in center */
+    max-width: 45%;
+    display: inline-flex;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.form
+{
+    /* form to center */
+    display: inline-flex;
+    flex-direction: column;
+    margin: 0 10px;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.odd
+{
+    background-color: lightgrey;
+}
+
+.even
+{
+    background: none;
+}
+
+table
+{
+    font-size: 1.3rem;
+}
+
+tr
+{
+    font-weight: bold;
+}
+
+th
+{
+    font-size: 1.7rem;
+    padding-bottom: 1.5rem;
+}
+
+td
+{
+    border-bottom: 2px solid rgb(30, 30, 255);
+    border-bottom: 2px solid rgba(0, 0, 255, 0.5);
+}

@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-0 col-lg-2"></div>
+            <div class="col-md-0 col-lg-4"></div>
+            <div class="col-md col-lg-6 mb-5 {{ 'justify-content-center' if not data else 'justify-content-end' }}">
+                <h2 class="display-3"><span class="display-4">Account Net Worth:</span><br /><strong>{{ cash }}</strong></h2>
+            </div>
+        </div>
+
+        <!-- If user just made a purchase, display it here -->
+
+        {% if data %}
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-8">
+                    <h2 class="display-4">Owned Stocks</h2>
+                </div>
+
+                <div>
+                    <div class="col-md-12 col-lg-8">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="px-4">COMPANY</th>
+                                    <th class="px-4">SYMBOL</th>
+                                    <th class="px-4">SHARES</th>
+                                    <th class="px-4">PRICE</th>
+                                    <th class="px-4">WORTH</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for row in data %}
+                                    <tr class="{{ loop.cycle('even', 'odd') }}">
+
+                                        {% for k, v in row.items() %}
+                                                <td class="px-4">{{ v }}</td>
+                                        {% endfor %}
+
+                                    </tr>
+                                {% endfor %}
+
+                                <tr>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td>TOTAL</td>
+                                    <td>{{ "$%.2f" % (total|round(2)|float()) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-around">
+                <div class="col display-4">You have no purchased stocks.</div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
