@@ -1,14 +1,35 @@
 """
 Main Flask application.
 
-Help from anything other than official documentation or shameless
-copy off the already-built function, "login()", is specified.
+Based on distribution code from the Web Track of HarvardX's 2020 cs50 course:
+    https://cs50.harvard.edu/x/2020/tracks/web/
+    # finance tab
+
+Help from anything other than official Python documentation is specified.
 
 SQLite whitespace formatting was inspired by "sqlitetutorial.net".
+Babel: http://babel.pocoo.org/en/latest/dates.html
+CS50: https://cs50.readthedocs.io/libraries/cs50/python/
+Flask: https://flask.palletsprojects.com/en/1.1.x/
+Jinja: https://jinja.palletsprojects.com/en/2.11.x/
+
+Brian Yu wrote the following functions and the Flask boilerplate and gave it to
+students as the distribution code:
+    error_handler
+    (most of) login
+    logout
+    the loop at the end
+
+from helpers.py:
+    apology
+    login_required
+    lookup
+    usd
 """
 
 import os
 
+from babel.dates import format_datetime
 from cs50 import SQL
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
@@ -16,7 +37,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import add_transaction, apology, debug, set_data, login_required, lookup, usd, validate, view_data
+from helpers import *
 
 # Configure application
 app = Flask(__name__)
@@ -46,7 +67,8 @@ db = SQL("sqlite:///finance.db")
 
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
-    raise RuntimeError("API_KEY not set")
+    # Would certainly remove in production, but speeds testing
+    os.environ["API_KEY"] = "pk_be7cd775263e47688098391df4327827"
 
 
 @app.route("/")
@@ -58,7 +80,8 @@ def index():
     view_data(db)
     session["cash"] = db.execute("SELECT cash FROM main.users WHERE id = :uid", uid=session["user_id"])[0]["cash"]
 
-    return render_template("index.html", cash=usd(session["cash"]), data=session["totals"], total=session["total"])
+    return render_template("index.html", cash=usd(session["cash"]), data=session["totals"],
+                            total=session["total"], grand_total=session["grand_total"])
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -91,7 +114,6 @@ def buy():
         # Calculate total cost of share(s)
         # Total should be precice to 3 places to get accurate rounding, later
         total = round(price * shares, 3)
-        debug("Total", total)
 
         # Get user's cash
         cash = db.execute("SELECT cash FROM users WHERE id = :uid", uid=user_id)[0]["cash"]
@@ -144,7 +166,7 @@ def login():
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username",
-                           username=username)
+                          username=username)
 
         # Ensure username exists and password is correct
         if (len(rows) != 1 or not
@@ -153,7 +175,6 @@ def login():
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
-        user_id = session["user_id"]
 
         # Add user data to session and redirect user to home page
         set_data(db)
@@ -199,6 +220,7 @@ def quote():
 
         # Separate company name and stock price
         company = quote["name"]
+        print(f"\n\n\n\n{company}\n\n\n\n")
         price = quote["price"]
 
         # Display quote
@@ -242,10 +264,10 @@ def register():
 
         # Username is already in database
         elif db.execute("""SELECT   username
-                           FROM     main.users
-                           WHERE    username = :username""",
+                          FROM     main.users
+                          WHERE    username = :username""",
 
-                           username=username) == [{"username": username}]:
+                          username=username) == [{"username": username}]:
             return apology("username not available", 407)
 
         # Hash password
@@ -353,7 +375,7 @@ def confirmation(action):
     user_id = session["user_id"]
 
     # Get user's cash from database
-    cash = db.execute("SELECT cash FROM users WHERE id = :uid", uid=user_id)[0]["cash"]
+    cash = db.execute("SELECT cash FROM main.users WHERE id = :user_id", user_id=user_id)[0]["cash"]
 
     if action == "Sell":
 
@@ -393,7 +415,7 @@ def confirmation(action):
     # Generate data to display on main page
     view_data(db)
 
-    return render_template("index.html", cash=usd(session["cash"]), data=session["totals"], total=session["total"])
+    return render_template("index.html", cash=usd(session["cash"]), data=session["totals"], total=session["total"], grand_total=session["grand_total"])
 
 
 def errorhandler(e):

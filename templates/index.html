@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-0 col-lg-2"></div>
             <div class="col-md-0 col-lg-4"></div>
             <div class="col-md col-lg-6 mb-5 {{ 'justify-content-center' if not data else 'justify-content-end' }}">
-                <h2 class="display-3"><span class="display-4">Account Net Worth:</span><br /><strong>{{ cash }}</strong></h2>
+                <h2 class="display-3"><span class="display-4">Balance:</span><br /><strong>{{ cash }}</strong></h2>
             </div>
         </div>
 
@@ -18,20 +18,20 @@
 
         {% if data %}
             <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-8">
-                    <h2 class="display-4">Owned Stocks</h2>
+                <div class="col-md-1 col-lg-12">
+                    <h2 class="display-4" id="secondh2">Owned</h2>
                 </div>
 
                 <div>
-                    <div class="col-md-12 col-lg-8">
+                    <div class="col-xs-1 col-sm-3 col-md-4 col-lg-12">
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="px-4">COMPANY</th>
-                                    <th class="px-4">SYMBOL</th>
-                                    <th class="px-4">SHARES</th>
-                                    <th class="px-4">PRICE</th>
-                                    <th class="px-4">WORTH</th>
+                                    <th class="pl-1">COMPANY</th>
+                                    <th class="pl-1">SYMBOL</th>
+                                    <th class="pl-1">SHARES</th>
+                                    <th class="pl-1">PRICE</th>
+                                    <th class="pl-1">WORTH</th>
                                 </tr>
                             </thead>
 
@@ -40,18 +40,28 @@
                                     <tr class="{{ loop.cycle('even', 'odd') }}">
 
                                         {% for k, v in row.items() %}
-                                                <td class="px-4">{{ v }}</td>
+                                                <td>{{ v }}</td>
                                         {% endfor %}
 
                                     </tr>
                                 {% endfor %}
 
                                 <tr>
+                                    <!-- Blank table data slots with one space each, to take up space. -->
                                     <td> </td>
                                     <td> </td>
                                     <td> </td>
-                                    <td>TOTAL</td>
-                                    <td>{{ "$%.2f" % (total|round(2)|float()) }}</td>
+                                    <td>VALUE</td>
+                                    <td>{{ "$%.2f" % (total|round(2)) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <!-- Blank table data slots with one space each, to take up space. -->
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td>NET WORTH</td>
+                                    <td>{{ "$%.2f" % (grand_total|round(2)) }}</td>
                                 </tr>
                             </tbody>
                         </table>

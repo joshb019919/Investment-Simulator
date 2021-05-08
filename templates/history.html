@@ -22,15 +22,15 @@
             </thead>
 
             <tbody>
-                {% for col in data %}
+                {% for row in data|reverse %}
                     <tr class="{{ loop.cycle('even', 'odd') }}">
-                            <td class="px-2">{{ col.datetime }}</td>
-                            <td class="px-2">{{ col.company }}</td>
-                            <td class="px-2">{{ col.symbol }}</td>
-                            <td class="px-2">{{ col.action }}</td>
-                            <td class="px-2">{{ col.shares|abs() }}</td>
-                            <td class="px-2">{{ col.price }}</td>
-                            <td class="px-2">{{ col.value|round(2)|abs() }}</td>
+                            <td class="px-2">{{ row.datetime|format }}</td>
+                            <td class="px-2">{{ row.company }}</td>
+                            <td class="px-2">{{ row.symbol }}</td>
+                            <td class="px-2">{{ row.action }}</td>
+                            <td class="px-2">{{ row.shares|abs() }}</td>
+                            <td class="px-2">{{ row.price }}</td>
+                            <td class="px-2">{{ row.value|round(2)|abs() }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -21,7 +21,9 @@ def add_transaction(db, company, symbol, action, shares, price, total):
 
 
 def apology(message, code=400):
-    """Render message as an apology to user."""
+    """Render message as an apology to user.
+    From Distribution.
+    """
 
     def escape(s):
         """
@@ -43,6 +45,7 @@ def login_required(f):
     Decorate routes to require login.
 
     http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    From Distribution.
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -53,12 +56,16 @@ def login_required(f):
 
 
 def lookup(symbol):
-    """Look up quote for symbol."""
+    """Look up quote for symbol.
+    From Distribution.
+    """
 
     # Contact API
     try:
         api_key = os.environ.get("API_KEY")
-        response = requests.get(f"https://cloud-sse.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
+
+        # API_KEY given as query parameter for easier testing.  Would be removed in production.
+        response = requests.get(f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token=pk_be7cd775263e47688098391df4327827")
         response.raise_for_status()
     except requests.RequestException:
         return None
@@ -85,7 +92,9 @@ def set_data(db):
 
 
 def usd(value):
-    """Format value as USD."""
+    """Format value as USD.
+    From Distribution.
+    """
     return f"${value:,.2f}"
 
 
@@ -129,7 +138,7 @@ def view_data(db):
     user_id = session["user_id"]
 
     # Data to be displayed
-    session["total"] = 0
+    total = 0
     session["totals"] = db.execute("""SELECT    company, symbol, SUM(shares)
                                       FROM      main.transactions
                                       WHERE     user_id = :uid
@@ -141,16 +150,16 @@ def view_data(db):
     # User has transactions
     if session["totals"]:
 
-        # Total current value of all owned stocks
-        total = round(sum((lookup(symbol["symbol"])["price"] * symbol["SUM(shares)"]) for symbol in session["totals"]), 2)
-
-        # Total profile value
-        total += session["cash"]
-
         # Calculate and add price and value columns
         for symbol in session["totals"]:
             price = lookup(symbol["symbol"])["price"]
             symbol["price"] = "${}".format(price)
-            symbol["value"] = "${:.2f}".format(price * symbol["SUM(shares)"])
+            value = price * symbol["SUM(shares)"]
+            total += value
+            symbol["value"] = "${:.2f}".format(value)
 
         session["total"] = total
+        session["grand_total"] = total + session["cash"]
+
+    else:
+        session["total"] = 0
