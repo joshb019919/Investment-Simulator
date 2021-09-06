@@ -10,5 +10,5 @@
 ### ......cs50
 
 # Usage:
-## type 'flask run' into the command line in the directory containing the main Python file
+## type 'flask run' into the command line in the directory containing the main Python application, called app.py
 ## the website should be available at the following address: 127.0.0.1:5000/
