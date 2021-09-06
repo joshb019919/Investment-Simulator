@@ -3,11 +3,12 @@
 # Requirements: 
 ### an internet browser, no active internet connection necessary.
 ### Python 3
-### ...pip
-### ......Flask
-### ......flask-session
-### ......babel
-### ......cs50
+##### pip
+##### Flask
+##### flask-session
+##### babel
+##### cs50
+##### functools
 
 # Usage:
 ## type 'flask run' into the command line in the directory containing the main Python application, called app.py
