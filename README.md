@@ -3,6 +3,7 @@
 # Requirements: 
 ## an internet browser, no active internet connection necessary.
 ## Flask
+## Python 3
 
 # Usage:
 ## type 'flask run' into the command line in the directory containing the main Python file
