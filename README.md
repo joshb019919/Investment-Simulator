@@ -11,4 +11,4 @@
 
 # Usage:
 ## type 'flask run' into the command line in the directory containing the main Python file
-## the website should be available at the following address: 127.0.0.1:8000/
+## the website should be available at the following address: 127.0.0.1:5000/
