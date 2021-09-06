@@ -3,6 +3,7 @@
 # Requirements: 
 ## an internet browser, no active internet connection necessary.
 ## Flask
+## flask-session
 ## Python 3
 
 # Usage:
